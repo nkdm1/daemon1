@@ -1,2 +1,2 @@
-# daemon1 - nkdm
+# daemon1
 
