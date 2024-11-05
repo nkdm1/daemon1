@@ -1,3 +1,1 @@
 # daemon1
-
-test
