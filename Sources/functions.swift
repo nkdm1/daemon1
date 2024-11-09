@@ -1,48 +1,34 @@
 import AppKit
 
+class openConfig: NSWorkspace.OpenConfiguration{
+    override init() {
+        super.init()
+        requiresUniversalLinks = false
+        isForPrinting = false
+        activates = false
+        addsToRecentItems = false
+        allowsRunningApplicationSubstitution = false
+        createsNewApplicationInstance = false
+        hides = false
+        hidesOthers = false
+    }
+}
+
 func getFrontmostApplication() -> NSRunningApplication? {
     return NSWorkspace.shared.frontmostApplication
 }
 
 func hasOpenedWindows(_ app: NSRunningApplication) -> Bool {
     let appElement = AXUIElementCreateApplication(app.processIdentifier)
-    var windows: CFTypeRef?
+    var windowsList: CFTypeRef?
     
-    let result = AXUIElementCopyAttributeValue(appElement, kAXWindowsAttribute as CFString, &windows)
-    if result == .success, let windowList = windows as? [AXUIElement], !windowList.isEmpty {
+    let result = AXUIElementCopyAttributeValue(appElement, kAXWindowsAttribute as CFString, &windowsList)
+    if result == .success, let windowsList = windowsList as? [AXUIElement], !windowsList.isEmpty {
         return true
     } else {
         return false
     }
 }
-
-/*
-func openWindowByAS(_ appName: String) {
-    let script = """
-        tell application "\(appName)"
-            activate
-            try
-                tell application "\(appName)" to open
-            on error
-                try
-                    tell application "\(appName)" to make new window
-                end try
-            end try
-        end tell
-        """
-
-    if let appleScript = NSAppleScript(source: script) {
-        var error: NSDictionary?
-        appleScript.executeAndReturnError(&error)
-        
-        if let error = error {
-            print("AppleScript error: \(error)")
-        } else {
-            print("Opened a new window in \(appName).")
-        }
-    }
-}
-*/
 
 func setupApplicationObserver() {
     NSWorkspace.shared.notificationCenter.addObserver(
@@ -65,21 +51,6 @@ func setupApplicationObserver() {
             print("No frontmost application found.")
         }
     }
-}
-
-class openConfig: NSWorkspace.OpenConfiguration{
-    override init() {
-        super.init()
-        requiresUniversalLinks = false
-        isForPrinting = false
-        activates = false
-        addsToRecentItems = false
-        allowsRunningApplicationSubstitution = false
-        createsNewApplicationInstance = false
-        hides = false
-        hidesOthers = false
-    }
-    
 }
 
 func openWindowByNSWorkspace(_ url: URL){

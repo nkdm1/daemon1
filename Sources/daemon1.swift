@@ -11,7 +11,6 @@ struct daemon1 {
             
         }
         
-        
         RunLoop.main.run()
     }
 }
