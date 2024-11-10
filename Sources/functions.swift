@@ -1,6 +1,6 @@
 import AppKit
 
-class openConfig: NSWorkspace.OpenConfiguration{
+class OpenConfig: NSWorkspace.OpenConfiguration{
     override init() {
         super.init()
         requiresUniversalLinks = false
@@ -14,44 +14,65 @@ class openConfig: NSWorkspace.OpenConfiguration{
     }
 }
 
-func getFrontmostApplication() -> NSRunningApplication? {
-    return NSWorkspace.shared.frontmostApplication
-}
-
-func hasOpenedWindows(_ app: NSRunningApplication) -> Bool {
-    let appElement = AXUIElementCreateApplication(app.processIdentifier)
-    var windowsList: CFTypeRef?
+struct FrontmostApplication {
+    let NSRunningApplicationElement: NSRunningApplication!
+    let AXUIElement: AXUIElement
     
-    let result = AXUIElementCopyAttributeValue(appElement, kAXWindowsAttribute as CFString, &windowsList)
-    if result == .success, let windowsList = windowsList as? [AXUIElement], !windowsList.isEmpty {
-        return true
-    } else {
+    init() {
+        self.NSRunningApplicationElement = NSWorkspace.shared.frontmostApplication
+        self.AXUIElement = AXUIElementCreateApplication(NSRunningApplicationElement.processIdentifier)
+    }
+    
+    func hasOpenedWindows() -> Bool {
+        var windowsList: CFTypeRef?
+        
+        let result = AXUIElementCopyAttributeValue(AXUIElement, kAXWindowsAttribute as CFString, &windowsList)
+        if result == .success, let windowsList = windowsList as? [AXUIElement], !windowsList.isEmpty {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func hasAllWindowsMiniaturized() -> Bool {
+        var windowsList: CFTypeRef?
+        var minimizedCount: Int = 0
+        
+        let result = AXUIElementCopyAttributeValue(AXUIElement, kAXWindowsAttribute as CFString, &windowsList)
+        if result == .success, let windowsList = windowsList as? [AXUIElement], !windowsList.isEmpty {
+            for window in windowsList {
+                var isMinimized: CFTypeRef?
+                let minimizedResult = AXUIElementCopyAttributeValue(window, kAXMinimizedAttribute as CFString, &isMinimized)
+                    
+                if minimizedResult == .success, let isMinimized = isMinimized, CFBooleanGetValue((isMinimized as! CFBoolean)) {
+                        minimizedCount += 1
+                    }
+                }
+        }
+        if let windowsList, minimizedCount == windowsList.count {
+            return true
+        }
         return false
     }
-}
-
-func hasAllWindowsMiniaturized(_ app: NSRunningApplication) -> Bool {
-    let appElement = AXUIElementCreateApplication(app.processIdentifier)
-    var windowsList: CFTypeRef?
-    var minimizedCount = 0
-    var windowsCount = 0
     
-    let result = AXUIElementCopyAttributeValue(appElement, kAXWindowsAttribute as CFString, &windowsList)
-    if result == .success, let windowsList = windowsList as? [AXUIElement], !windowsList.isEmpty {
-        windowsCount = windowsList.count
-        for window in windowsList {
-            var isMinimized: CFTypeRef?
-            let minimizedResult = AXUIElementCopyAttributeValue(window, kAXMinimizedAttribute as CFString, &isMinimized)
-                
-            if minimizedResult == .success, let isMinimized = isMinimized, CFBooleanGetValue((isMinimized as! CFBoolean)) {
-                    minimizedCount += 1
+    func unminiaturizeAllMiniaturizedWindows() {
+        var windowsList: CFTypeRef?
+        
+        let result = AXUIElementCopyAttributeValue(AXUIElement, kAXWindowsAttribute as CFString, &windowsList)
+        if result == .success, let windowsList = windowsList as? [AXUIElement], !windowsList.isEmpty {
+            for window in windowsList {
+                var isMinimized: CFTypeRef?
+                let minimizedResult = AXUIElementCopyAttributeValue(window, kAXMinimizedAttribute as CFString, &isMinimized)
+                    
+                if minimizedResult == .success, let isMinimized = isMinimized, CFBooleanGetValue((isMinimized as! CFBoolean)) {
+                    let unminiaturizeResult = AXUIElementSetAttributeValue(window, kAXMinimizedAttribute as CFString, kCFBooleanFalse)
+                    if unminiaturizeResult != .success {
+                        print("Failed to unminiaturize window \(window)")
+                    }
                 }
             }
+        }
     }
-    if minimizedCount == windowsCount {
-        return true
-    }
-    return false
     
 }
 
@@ -62,27 +83,28 @@ func setupApplicationObserver() {
         queue: .main
     )
     { notification in
-        if  let frontmostApp = getFrontmostApplication(),
-            let frontmostAppName = frontmostApp.localizedName,
-            let bundleURL = frontmostApp.bundleURL{
-                
-            if !hasOpenedWindows(frontmostApp) {
-                openApplicationByNSWorkspace(bundleURL)
-                print("Opened window for \(frontmostAppName).")
-            } else if hasAllWindowsMiniaturized(frontmostApp){
-                openApplicationByNSWorkspace(bundleURL)
-                print("Unminiaturized window for \(frontmostAppName).")
-            } else {
-                print("\(frontmostAppName) has open windows.")
-            }
+        let frontmostApplication = FrontmostApplication()
+        if !frontmostApplication.hasOpenedWindows() {
+            openApplicationByNSWorkspace(frontmostApplication.NSRunningApplicationElement.bundleURL!)
+            print("Opened window for \(frontmostApplication.NSRunningApplicationElement.localizedName!).")
+        } else if frontmostApplication.hasAllWindowsMiniaturized(){
+            frontmostApplication.unminiaturizeAllMiniaturizedWindows()
+            print("Unminiaturized window for \(frontmostApplication.NSRunningApplicationElement.localizedName!).")
         } else {
-            print("No frontmost application found.")
+            print("\(frontmostApplication.NSRunningApplicationElement.localizedName!) has open windows.")
         }
     }
 }
 
+
+
 func openApplicationByNSWorkspace(_ url: URL){
-    let openConfig = openConfig()
-    NSWorkspace.shared.openApplication(at: url, configuration: openConfig)
+    let OpenConfig = OpenConfig()
+    NSWorkspace.shared.openApplication(at: url, configuration: OpenConfig)
 }
+
+
+
+
+
 
