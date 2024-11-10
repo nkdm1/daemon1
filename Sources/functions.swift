@@ -5,7 +5,7 @@ class openConfig: NSWorkspace.OpenConfiguration{
         super.init()
         requiresUniversalLinks = false
         isForPrinting = false
-        activates = false
+        activates = true
         addsToRecentItems = false
         allowsRunningApplicationSubstitution = false
         createsNewApplicationInstance = false
@@ -30,6 +30,31 @@ func hasOpenedWindows(_ app: NSRunningApplication) -> Bool {
     }
 }
 
+func hasAllWindowsMiniaturized(_ app: NSRunningApplication) -> Bool {
+    let appElement = AXUIElementCreateApplication(app.processIdentifier)
+    var windowsList: CFTypeRef?
+    var minimizedCount = 0
+    var windowsCount = 0
+    
+    let result = AXUIElementCopyAttributeValue(appElement, kAXWindowsAttribute as CFString, &windowsList)
+    if result == .success, let windowsList = windowsList as? [AXUIElement], !windowsList.isEmpty {
+        windowsCount = windowsList.count
+        for window in windowsList {
+            var isMinimized: CFTypeRef?
+            let minimizedResult = AXUIElementCopyAttributeValue(window, kAXMinimizedAttribute as CFString, &isMinimized)
+                
+            if minimizedResult == .success, let isMinimized = isMinimized, CFBooleanGetValue((isMinimized as! CFBoolean)) {
+                    minimizedCount += 1
+                }
+            }
+    }
+    if minimizedCount == windowsCount {
+        return true
+    }
+    return false
+    
+}
+
 func setupApplicationObserver() {
     NSWorkspace.shared.notificationCenter.addObserver(
         forName: NSWorkspace.didActivateApplicationNotification,
@@ -42,8 +67,11 @@ func setupApplicationObserver() {
             let bundleURL = frontmostApp.bundleURL{
                 
             if !hasOpenedWindows(frontmostApp) {
-                openWindowByNSWorkspace(bundleURL)
+                openApplicationByNSWorkspace(bundleURL)
                 print("Opened window for \(frontmostAppName).")
+            } else if hasAllWindowsMiniaturized(frontmostApp){
+                openApplicationByNSWorkspace(bundleURL)
+                print("Unminiaturized window for \(frontmostAppName).")
             } else {
                 print("\(frontmostAppName) has open windows.")
             }
@@ -53,7 +81,8 @@ func setupApplicationObserver() {
     }
 }
 
-func openWindowByNSWorkspace(_ url: URL){
+func openApplicationByNSWorkspace(_ url: URL){
     let openConfig = openConfig()
     NSWorkspace.shared.openApplication(at: url, configuration: openConfig)
 }
+
