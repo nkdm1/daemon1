@@ -1,16 +1,17 @@
 import AppKit
-
+import Swindler
+import ApplicationServices
+import Cocoa
 @main
 struct daemon1 {
     static func main() {
         print("Starting daemon1...")
-        setupApplicationObserver()
-        print("AXIsProcessTrusted: \(AXIsProcessTrusted())")
+        let applicationDelegate = AppDelegate()
+        let application = NSApplication.shared
+        application.setActivationPolicy(NSApplication.ActivationPolicy.accessory)
+        application.delegate = applicationDelegate
+        // watchForApplicationActivation()
+        application.run()
         
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
-            
-        }
-        
-        RunLoop.main.run()
     }
 }

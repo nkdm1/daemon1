@@ -1,0 +1,51 @@
+{
+  "originHash" : "c241c723d60a3ed07ac8f8d7e5cb74f8af5ef1e42342bfdd3d4185ea3c1ca21a",
+  "pins" : [
+    {
+      "identity" : "axswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tmandry/AXSwift",
+      "state" : {
+        "revision" : "81dcc36aced905d6464cc25e35f8d13184bbf21c",
+        "version" : "0.3.2"
+      }
+    },
+    {
+      "identity" : "nimble",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Quick/Nimble.git",
+      "state" : {
+        "revision" : "e9d769113660769a4d9dd3afb855562c0b7ae7b0",
+        "version" : "7.3.4"
+      }
+    },
+    {
+      "identity" : "promisekit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mxcl/PromiseKit.git",
+      "state" : {
+        "revision" : "8a98e31a47854d3180882c8068cc4d9381bf382d",
+        "version" : "6.22.1"
+      }
+    },
+    {
+      "identity" : "quick",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Quick/Quick.git",
+      "state" : {
+        "revision" : "bd86ca0141e3cfb333546de5a11ede63f0c4a0e6",
+        "version" : "4.0.0"
+      }
+    },
+    {
+      "identity" : "swindler",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tmandry/Swindler",
+      "state" : {
+        "branch" : "main",
+        "revision" : "bf2c42f1db8bb1aa6c0b634d9fca3ab4bd37931d"
+      }
+    }
+  ],
+  "version" : 3
+}

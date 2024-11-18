@@ -2,6 +2,7 @@
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
+import Cocoa
 
 let package = Package(
     name: "daemon1",
@@ -9,7 +10,8 @@ let package = Package(
        .macOS(.v10_15),
     ],
     dependencies: [
-        
+        .package(url: "https://github.com/tmandry/AXSwift", from: "0.3.0"),
+        .package(url: "https://github.com/tmandry/Swindler", branch: "main"),
     ],
     
     targets: [
@@ -17,7 +19,10 @@ let package = Package(
         // Targets can depend on other targets in this package and products from dependencies.
         .executableTarget(
             name: "daemon1",
-            dependencies: [],
+            dependencies: [
+                "AXSwift",
+                "Swindler"
+            ],
             path: "Sources"),
     ]
 )
