@@ -1,18 +1,11 @@
-# daemon1
+# daemon1 - addition to macos window management
 daemon1 is simple background process that changes the default behaviour of macos windows management and makes it a little more intuitive (imo)
 
 ## features
-*   switching between applications in macos with command+tab doesn't open a new window if none are opened, which i find really annoying
- 
-    daemon1 automatically opens a new window if switched-to application has zero windows, making you forget about command+tab+option-command shortcut
-*   i've never minimized my windows because it's a struggle to unminimize them back
+*  daemon1 automatically opens a new window if switched-to application has zero windows, making you forget about command+tab+option-command shortcut
+*  if switched-to application has all minimized windows, daemon1 unminimizes the last minimized one
 
-    now, if switched-to application has all minimized windows, daemon1 unminimizes the last minimized one
-*   in macos, closing the last window of an application doesn't quit it, which in my opinion makes sense, especially when you know how macos manages energy and memory
-
-    the one think i don't understand is why closing/minimizing the last window of an application doesn't hide it 
-
-    fortunately, we don't have to, because daemon1 hides an application when we close/minimize it's last window
+* closing/minimizing the last window of an application hides it (performs command+tab)
 
 ## installation
 
