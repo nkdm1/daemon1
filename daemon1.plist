@@ -6,7 +6,7 @@
 	<string>nkdm1.daemon1</string>
 	<key>ProgramArguments</key>
 	<array>
-		<string>/Users/nikodem/Developer/daemon1/.build/arm64-apple-macosx/debug/daemon1</string>
+		<string>PASTE YOU PATH HERE</string>
 	</array>
 	<key>KeepAlive</key>
 	<true/>
