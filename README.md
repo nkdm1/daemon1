@@ -7,10 +7,9 @@
 -   performs hold_cmd+tab if the last window of application has been closed
 
 
-# known problems
--   switching to finder always displays "finder has open windows" for some reason 
--   when unminiaturizing safari window, which has more than 1 tab open,
-    the hold_cmd+tab bar is not properly disappearing,
-    which creates illusion of lag (prolly macOS issue, because the same happens when 
-    unminiaturizing with hold_cmd+tab+hold_opt-cmd)
+# known problems 
+-   when an apppication has some windows minimized and you close the last not-minimized window (which triggers app-switch), switch back to that 
+    application unminiaturizes the oldest window, not the last minimized.
+    i made it unminiaturize all windows, instead of the oldest, until i fix it.
+
 
