@@ -1,4 +1,4 @@
-# daemon1 - addition to macos window management
+# daemon1
 daemon1 is simple background process that changes the default behaviour of macos windows management and makes it a little more intuitive (imo)
 
 ## features
