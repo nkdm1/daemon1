@@ -18,7 +18,7 @@ daemon1 is simple background process that changes the default behaviour of macos
 -   by homebrew (tba)
 
 ## usage
-    daemon1 is working as a background process called "agent", which is automatically
+daemon1 is working as a background process called "agent", which is automatically
     launched when you log in to your account
     after installation you don't have to do anything, it just works
     if you don't want to use daemon1 anymore just delete .plist file from your ~/Library/LaunchAgents/ directory and then remove files you downloaded from this website
