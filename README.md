@@ -15,7 +15,7 @@ daemon1 is compatible with macos 10.15 and newer
 2. move daemon1 to your desired directory, like "/Applications" or "~/Library/"
 3. copy the daemon1 path and paste it into .plist file under "ProgramArguments" -> "Item 0"
 4. move .plist to "~/Library/LaunchAgents"
-5. open terminal and type `launchctl load ~/Library/LaunchAgents`
+5. open terminal and type `launchctl load ~/Library/LaunchAgents/daemon1.plist`
 6. daemon1 should ask you for accessability privilege, grant it in system settings
 
 `brew install daemon1` - hopefully coming soon 
