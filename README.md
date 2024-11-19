@@ -19,7 +19,7 @@ daemon1 is compatible with macos 10.15 and newer
 6. open terminal and type `launchctl load ~/Library/LaunchAgents/daemon1.plist`
 7. click "done" when prompted with "daemon1 not opened"
 8. go to system settings -> privacy&security -> scroll down and click open/allow anyway 
-9. you will be prompted to grant accessability privilege, grant them in system settings -> privacy&security -> accessability
+9. you will be prompted to grant accessability privilege, grant them in system settings -> privacy&security -> accessibility
 10. ignore "There is no application set to open the document 'coreautha.bundle'." i have no fucking idea how to fix it (pls help)
 
 `brew install daemon1` - hopefully coming soon 
