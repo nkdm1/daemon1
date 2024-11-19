@@ -9,7 +9,7 @@ daemon1 is simple background process that changes the default behaviour of macos
 
 ## installation
 
-daemon1 is compatible with macos 10.15 and newer
+daemon1 is compatible with apple m-series chips on macos 10.15 or higher
 
 1. download daemon1 executable and .plist file [here](https://github.com/nkdm1/daemon1/releases/tag/v0.1)
 2. move daemon1 to "/Applications" directory
