@@ -12,11 +12,15 @@ daemon1 is simple background process that changes the default behaviour of macos
 daemon1 is compatible with macos 10.15 and newer
 
 1. download daemon1 executable and .plist file [here](https://github.com/nkdm1/daemon1/releases/tag/v0.1)
-2. move daemon1 to your desired directory, like "/Applications" or "~/Library/"
-3. copy the daemon1 path and paste it into .plist file under "ProgramArguments" -> "Item 0"
-4. move .plist to "~/Library/LaunchAgents"
-5. open terminal and type `launchctl load ~/Library/LaunchAgents/daemon1.plist`
-6. daemon1 should ask you for accessability privilege, grant it in system settings
+2. move daemon1 to "/Applications" directory
+3. open terminal and type `cd /Applications` and then `chmod 755 "daemon1"`
+4. paste `/Applications/daemon1` into .plist file under "ProgramArguments" -> "Item 0"
+5. move .plist to "~/Library/LaunchAgents"
+6. open terminal and type `launchctl load ~/Library/LaunchAgents/daemon1.plist`
+7. click "done" when prompted with "daemon1 not opened"
+8. go to system settings -> privacy&security -> scroll down and click open/allow anyway 
+9. you will be prompted to grant accessability privilege, grant them in system settings -> privacy&security -> accessability
+10. ignore "There is no application set to open the document 'coreautha.bundle'." i have no fucking idea how to fix it (pls help)
 
 `brew install daemon1` - hopefully coming soon 
 
