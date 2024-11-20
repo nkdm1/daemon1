@@ -23,6 +23,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     private func setupEventHandlers() {
+        let ignoredApplications: [String] = ["Stats"]
+        
         
         swindler.on { (event: WindowCreatedEvent) in
             //window creation logic
@@ -44,7 +46,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     print("last window closed")
                     event.window.application.isHidden.value = true
                 } else{
-                    print("unable to count windows, line 39")
+                    print("app still have existing windows")
                 }
             }
         }
@@ -52,8 +54,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             // app main window changed logic
         }
         swindler.on { (event: FrontmostApplicationChangedEvent) in
-            print("new frontmost app: \(event.newValue?.bundleIdentifier ?? "unknown").",
-                  "[old: \(event.oldValue?.bundleIdentifier ?? "unknown")]")
+            let newFrontmostApp = String(event.newValue?.bundleIdentifier?.split(separator: ".").last ?? "unknown")
+            let oldFrontmostapp = String(event.oldValue?.bundleIdentifier?.split(separator: ".").last ?? "unknown")
+            
+            guard !ignoredApplications.contains(newFrontmostApp) && !ignoredApplications.contains(oldFrontmostapp) else {
+                return
+            }
+            print("new frontmost app: \(newFrontmostApp).",
+                  "[old: \(event.oldValue?.bundleIdentifier?.split(separator: ".").last ?? "unknown")]")
+            
             self.frontmostApplicationChanged()
         }
         swindler.on { (event: WindowMinimizedChangedEvent) in
@@ -73,7 +82,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     private func frontmostApplicationChanged() {
         let windows: [Window]? = swindler.frontmostApplication.value?.knownWindows
-        if windows?.count == 0 {
+        if windows?.count == 0{
             if let URL = NSWorkspace.shared.frontmostApplication?.bundleURL {
                 NSWorkspace.shared.openApplication(at: URL, configuration: OpenConfig())
             }
