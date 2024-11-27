@@ -23,7 +23,7 @@ daemon1 is compatible with apple m-series chips on macos 10.15 or higher
 
 `brew install daemon1` - hopefully coming soon 
 
-# additional features
+## additional features
 * if you want daemon1 to ignore some applications, `touch ignoredapplications.txt` and move it under "~/Library/daemon1", type names of applications each in new line:
 ```
 stats
