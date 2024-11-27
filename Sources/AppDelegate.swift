@@ -84,12 +84,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             guard event.newValue?.bundleIdentifier == self.swindler.frontmostApplication.value?.bundleIdentifier && NSWorkspace.shared.menuBarOwningApplication?.bundleIdentifier == event.newValue?.bundleIdentifier && event.external == true else {
                 return
             }
-            let finder = self.getFinder()
-            if self.swindler.frontmostApplication.value == finder {
-                print("finder is frontmost")
-                print(event.newValue?.knownWindows ?? "brak okien")
-                print(event.newValue?.knownWindows.count ?? "0")
-            }
             print("new frontmost app: \(newFrontmostApp).",
                   "[old: \(oldFrontmostapp)]")
             
@@ -98,7 +92,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         swindler.on { (event: WindowMinimizedChangedEvent) in
             guard !ignoredApplicationsList.contains(event.window.application.bundleIdentifier?.split(separator: ".").last?.lowercased() ?? "unknown")
-            // && event.newValue.description.contains("true") -> sprawdzić czy działa tylko gdy minimalizujemy
+             && event.newValue.description.contains("true")
             else {
                 return
             }
@@ -129,7 +123,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
             if minimizedApplicationWindowsCount == event.window.application.knownWindows.count {
                 if visibleOtherWindowsCount != 0 {
-                    print("last window closed")
+                    print("last window minimized")
                     event.window.application.isHidden.value = true
                 }
                 else {
@@ -144,7 +138,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         swindler.on {(event: ApplicationIsHiddenChangedEvent) in // it sometimes does sometimes doesn't bring finder window to front i dont know why
             let finder = self.getFinder()
-            guard event.external == true && self.swindler.frontmostApplication.value != finder ?? .none else {
+            guard event.external == true && self.swindler.frontmostApplication.value != finder ?? .none && event.newValue.description.contains("true") else {
                 return
             }
             
