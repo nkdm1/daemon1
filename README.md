@@ -10,19 +10,26 @@ daemon1 is a background process that changes the default behaviour of macos wind
 
 daemon1 is compatible with apple m-series chips on macos 10.15 or higher
 
-1. download daemon1 executable and .plist file [here](https://github.com/nkdm1/daemon1/releases/tag/v0.1)
+1. download daemon1 executable and .plist file [here](https://github.com/nkdm1/daemon1/releases/tag/v0.2.0)
 2. move daemon1 executable to "/Applications" directory
 3. open terminal and paste `cd /Applications; chmod 755 "daemon1"`
-4. open .plist file and paste `/Applications/daemon1` under "ProgramArguments" -> "Item 0"
-5. move .plist to "~/Library/LaunchAgents"
-6. paste `launchctl load ~/Library/LaunchAgents/daemon1.plist` into terminal
-7. ignore prompt "daemon1 not opened", don't close it
-8. go to system settings -> privacy&security -> scroll down and click "open/allow anyway" 
-9. click "open" when prompted (again) that the application couldn't be verified 
-10. you will be prompted to grant accessibility privilege, grant them in system settings -> privacy&security -> accessibility
-11. there is a possibility that you will get "There is no application set to open the document 'coreautha.bundle'." error -> ignore it 
+4. move .plist to "~/Library/LaunchAgents"
+5. paste `launchctl load ~/Library/LaunchAgents/daemon1.plist` into terminal
+6. ignore prompt "daemon1 not opened", don't close it
+7. go to system settings -> privacy&security -> scroll down and click "open/allow anyway" 
+8. click "open" when prompted (again) that the application couldn't be verified 
+9. you will be prompted to grant accessibility privilege, grant them in system settings -> privacy&security -> accessibility
+10. there is a possibility that you will get "There is no application set to open the document 'coreautha.bundle'." error -> ignore it 
 
 `brew install daemon1` - hopefully coming soon 
+
+# additional features
+* if you want daemon1 to ignore some applications, `touch ignoredapplications.txt` and move it under "~/Library/daemon1", type names of applications each in new line:
+```
+stats
+systempreferences
+terminal
+```
 
 ### troubleshooting
 open your activity monitor, go to memory tab and type "daemon1" in the right upper corner

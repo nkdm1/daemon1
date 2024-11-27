@@ -6,7 +6,7 @@
 	<string>nkdm1.daemon1</string>
 	<key>ProgramArguments</key>
 	<array>
-		<string>PASTE YOU PATH HERE</string>
+		<string>/Applications/daemon1</string>
 	</array>
 	<key>KeepAlive</key>
 	<true/>

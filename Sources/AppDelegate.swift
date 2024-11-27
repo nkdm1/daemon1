@@ -39,7 +39,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let allApplications = self.swindler.runningApplications
             var minimizedApplicationWindowsCount = 0
             var visibleOtherWindowsCount = 0
-            var hiddenOtherApplicationsCount = 0
             print("window destroyed: \(event.window.title.value)")
             
             for app in allApplications {
@@ -75,17 +74,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         swindler.on { (event: FrontmostApplicationChangedEvent) in
 
-            /*
+            let newFrontmostApp = String(event.newValue?.bundleIdentifier?.split(separator: ".").last?.lowercased() ?? "unknown")
+            let oldFrontmostapp = String(event.oldValue?.bundleIdentifier?.split(separator: ".").last?.lowercased() ?? "unknown")
+            
             guard !ignoredApplicationsList.contains(newFrontmostApp) && !ignoredApplicationsList.contains(oldFrontmostapp) else {
                 return
             }
-             */
+            
             guard event.newValue?.bundleIdentifier == self.swindler.frontmostApplication.value?.bundleIdentifier && NSWorkspace.shared.menuBarOwningApplication?.bundleIdentifier == event.newValue?.bundleIdentifier && event.external == true else {
                 return
             }
             let finder = self.getFinder()
-            let newFrontmostApp = String(event.newValue?.bundleIdentifier?.split(separator: ".").last?.lowercased() ?? "unknown")
-            let oldFrontmostapp = String(event.oldValue?.bundleIdentifier?.split(separator: ".").last?.lowercased() ?? "unknown")
             if self.swindler.frontmostApplication.value == finder {
                 print("finder is frontmost")
                 print(event.newValue?.knownWindows ?? "brak okien")
@@ -108,7 +107,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let allApplications = self.swindler.runningApplications
             var minimizedApplicationWindowsCount = 0
             var visibleOtherWindowsCount = 0
-            var hiddenOtherApplicationsCount = 0
             print("window (un)minimized: \(event.window.title.value)")
             
             
