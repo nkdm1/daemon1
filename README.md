@@ -10,7 +10,7 @@ daemon1 is a background process that changes the default behaviour of macos wind
 
 daemon1 is compatible with apple m-series chips on macos 10.15 or higher
 
-1. download daemon1 executable and .plist file [here](https://github.com/nkdm1/daemon1/releases/tag/v0.2.0)
+1. download daemon1 executable and .plist file [here](https://github.com/nkdm1/daemon1/releases/tag/v0.2.1)
 2. move daemon1 executable to "/Applications" directory
 3. open terminal and paste `cd /Applications; chmod 755 "daemon1"`
 4. move .plist to "~/Library/LaunchAgents"
