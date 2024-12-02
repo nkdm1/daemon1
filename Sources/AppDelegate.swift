@@ -184,7 +184,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     private func setupIgnoredApplications() -> [String] {
-        var ignoredApplicationsList: [String] = []
+        var ignoredApplicationsList: [String] = ["loginwindow"]
         
         if !FileManager.default.fileExists(atPath: NSHomeDirectory() + "/Library/daemon1") {
             try? FileManager.default.createDirectory(atPath: NSHomeDirectory() + "/Library/daemon1", withIntermediateDirectories: true)
