@@ -11,10 +11,6 @@ struct daemon1 {
         application.delegate = applicationDelegate
         application.run()
         
-        // dodac observer command+w
-        // i przy zamknieciu okna sprawdzac czy command+w nie zostalo klikniete w przeciagu idk 0.5s
-        // jesli nie, to dopiero po dispatchqueue.delay, 0.5s - 1s sprawdzac czy okna istnieja
-        
         
     }
 }

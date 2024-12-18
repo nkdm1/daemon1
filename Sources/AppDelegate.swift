@@ -65,7 +65,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
             
-            if Date().timeIntervalSinceReferenceDate - lastCommandWTimestamp > 1 {
+            if Date().timeIntervalSinceReferenceDate - lastCommandWTimestamp > 0.1 {
                 DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)){
                     if minimizedApplicationWindowsCount == event.window.application.knownWindows.count {
                         if visibleOtherWindowsCount != 0 {
@@ -373,19 +373,11 @@ class ViewController: NSViewController {
 }
 
 
-func lastCommandWDetection() -> Date?{
-    return Date()
-}
-
 func openApplicationByNSWorkspace(_ url: URL){
     let OpenConfig = OpenConfig()
     NSWorkspace.shared.openApplication(at: url, configuration: OpenConfig)
 }
 
-func dispatchAfter(delay: TimeInterval, block: DispatchWorkItem) {
-    let time = DispatchTime.now() + delay
-    DispatchQueue.main.asyncAfter(deadline: time, execute: block)
-}
 
 class OpenConfig: NSWorkspace.OpenConfiguration{
     override init() {
